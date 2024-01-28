@@ -9,7 +9,7 @@ class Saxophone extends Instrument{
     padList[2] = new Pad(xyPos.x+(Xlength/1.432291), xyPos.y+(Xlength/30), Xlength/7.8, Xlength/3.9, 2, this, saxPad234);
     padList[4] = new Pad(xyPos.x+(Xlength/1.555), xyPos.y+(Xlength/4.34), Xlength/7.8, Xlength/3.9, 4, this, saxPad234);
     padList[3] = new Pad(xyPos.x+(Xlength/1.205), xyPos.y+(Xlength/5.7), Xlength/7.8, Xlength/3.9, 3, this, saxPad234);
-    padList[5] = new Pad(xyPos.x+(Xlength/1.75), xyPos.y+(Xlength/2.55), Xlength/9, 5, this);
+    padList[5] = new Pad(xyPos.x+(Xlength/1.78), xyPos.y+(Xlength/2.55), Xlength/9, 5, this);
     padList[6] = new Pad(xyPos.x+(Xlength/10), xyPos.y+(Xlength/1.40), Xlength/9, Xlength/6, 6, this, saxPad678);
     padList[7] = new Pad(xyPos.x+(Xlength/10), xyPos.y+(Xlength/1.125), Xlength/9, Xlength/6, 7, this, saxPad678);
     padList[8] = new Pad(xyPos.x+(Xlength/10), xyPos.y+(Xlength/0.947), Xlength/9, Xlength/6, 8, this, saxPad678);

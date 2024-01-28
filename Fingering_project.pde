@@ -3,16 +3,17 @@ boolean inputKey = false;
 String screenMode = "homescreen";
 String instrument = "none";
 boolean cheatSheet = false;
-Button homeButton, startButton, cheatSheetButton, fluteButton, saxButton, settingsButton, hotKeyResetButton;
+Button homeButton, startButton, cheatSheetButton, fluteButton, saxButton, settingsButton, hotKeyResetButton, masteryButton;
 String fluteString, saxString;
 String[] saxFingerings = {"00000000000010001111111", "00000000000010001111111", "00000000001000001111111", "00000000000000001111111", "00000000000100001111111", "00000000000100001111111", "00000000000000000111111", "00000000000000010111111", "00000000000000010111111", "00000000000000000111110", "00000000000000000111100", "00000000000000000111010", "00000000000000000111010", "00000000000000000111000", "00000000010000000111000", "00000000010000000111000", "00000000000000000110000", "00000100000000000100000", "00000100000000000100000", "00000000000000000100000", "00000000000000000010000", "00000000000000000000000", "00000000000000000000000", "01000000000000000111111", "01000000000000010111111", "01000000000000010111111", "01000000000000000111110", "01000000000000000111100", "01000000000000000111010", "01000000000000000111010", "01000000000000000111000", "01000000010000000111000", "01000000010000000111000", "01000000000000000110000", "01000100000000000100000", "01000100000000000100000", "01000000000000000100000", "01000000000000000010000", "01000000000000000000000", "01000000000000000000000", "01010000000000000000000", "01110000000000000000000", "01110000000000000000000", "01110010000000000000000", "01111010000000000000000"};
 String[] fluteFingerings = {"11110010101011", "11110010101001", "11110010101001", "11110010101000", "11110010101100", "11110010101100", "11110010100100", "11110010000100", "11110000001100", "11110000001100", "11110000000100", "11111000000100", "11111000000100", "11100000000100", "11000010000100", "11000010000100", "11000000000100", "01000000000100", "00000000000100", "00000000000100", "10110010101000", "10110010101100", "10110010101100", "11110010100100", "11110010000100", "11110000001100", "11110000001100", "11110000000100", "11111000000100", "11111000000100", "11100000000100", "11000010000100", "11000010000100", "11000000000100", "01000000000100", "00000000000100", "00000000000100", "10110000000100", "11111010101100", "11111010101100", "11100010100100", "11010010000100", "11010000001100", "11010000001100", "01110000000100", "00111000000100", "00111000000100", "10100010000100", "11000011000100", "11000011000100", "11010000010000", "01111010000000"};
 SheetMusic fluteNotes, saxNotes;
 String[] localFluteData, localSaxData, localFluteKeys, localSaxKeys;
-PImage cleff, wholeNote, flute, saxophone, bflatlever, gflatlever, bflatrill, trillKey, eflatKey, csharpKey, cKey, flat, sharp, saxPad1, saxPad, saxPad234, saxPad678, saxPad911, saxPad10, saxPad102, saxPad13, saxPad14, saxPad15, fluteChart, saxChart, homeIcon, startIcon, settingsIcon, fluteIcon, saxIcon, logo;
+PImage cleff, wholeNote, flute, saxophone, bflatlever, gflatlever, bflatrill, trillKey, eflatKey, csharpKey, cKey, flat, sharp, saxPad1, saxPad, saxPad234, saxPad678, saxPad911, saxPad10, saxPad102, saxPad13, saxPad14, saxPad15, fluteChart, saxChart, homeIcon, startIcon, settingsIcon, fluteIcon, saxIcon, logo, frame, star, menuIcon;
 Flute fluteInstrument;
 Saxophone saxInstrument;
 PFont varela;
+MasteryList fluteMasteryList, saxMasteryList;
 
 void setup(){
   background(255);
@@ -26,6 +27,7 @@ void setup(){
   saxButton = new Button(width/2+10, height/2-100, 100, 100, 255,215,0);
   settingsButton = new Button(width/2-65, height/2+120, 130, 55, 255, 238, 240);
   hotKeyResetButton = new Button(450, height/2-100, 100, 50, 190, 190, 190);
+  masteryButton = new Button(width/2-70, height-90, 140, 70, 167, 199, 231);
   
   //loading images
   cleff = loadImage("./images/treble.png");
@@ -58,7 +60,10 @@ void setup(){
   saxIcon = loadImage("./images/saxophoneIcon.png");
   startIcon = loadImage("./images/startLogo.png");
   settingsIcon = loadImage("./images/settings.png");
-  logo = loadImage("./images/logo.png");
+  logo = loadImage("./images/inTuneLogo.png");
+  frame = loadImage("./images/framingBackground.jpg");
+  star = loadImage("./images/star1.png");
+  menuIcon = loadImage("./images/menuIcon.png");
   
   //text files
   localFluteData = loadStrings("./data/flute.txt");
@@ -73,16 +78,22 @@ void setup(){
   //sheetmusic
   fluteNotes = new SheetMusic(300, 150, 100, fluteList, localFluteData);
   saxNotes = new SheetMusic(400, 150, 100, saxList, localSaxData);
+  SheetMusic fluteNotes2 = new SheetMusic(300, 150, 100, fluteList, localFluteData);
+  SheetMusic saxNotes2 = new SheetMusic(400, 150, 100, saxList, localSaxData);
   
   //creating the instruments
   fluteInstrument = new Flute(50, 300, 600, 200, fluteNotes);
   saxInstrument = new Saxophone(30, 30, 275, 550, saxNotes);
   
-  varela = createFont("./data/VarelaRound-Regular.ttf", 20);
-  
+    
   //uncomment to change mastery of notes on text file
-  //setMastery("./data/saxophone.txt", saxData, localSaxData, 0);
-  //setMastery("./data/flute.txt", fluteData, localFluteData, 0);
+  //setMastery("./data/saxophone.txt", localSaxData, 0);
+  //setMastery("./data/flute.txt", localFluteData, 3);
+  
+  //creating other things
+  varela = createFont("./data/VarelaRound-Regular.ttf", 20);
+  fluteMasteryList = new MasteryList(100, 0, 500, 600, localFluteData, frame, fluteNotes2);
+  saxMasteryList = new MasteryList(100, 0, 500, 600, localSaxData, frame, saxNotes2);
 }
 
 //draw procedure
@@ -97,22 +108,32 @@ void draw(){
   else if(screenMode.equals("settings")){
     settingsMode();
   }
+  else if(screenMode.equals("mastery")){
+    masteryMode();
+  }
 }
 
 //draws the homepage
 void drawHome(){
+  //draws logo
   imageMode(CENTER);
-  image(logo, width/2, 90, 500, 125);
+  image(logo, width/2, 90, 305, 130);
   imageMode(CORNER);
+  
+  //draws buttons
   startButton.drawMe();
   fluteButton.drawOtherButton();
   saxButton.drawOtherButton();
   strokeWeight(5);
   stroke(124,83,79);
   settingsButton.drawMe();
+  masteryButton.drawMe();
   noStroke();
+  
+  //draws icons, text and takes care of tinting when mouse hovers
   image(fluteIcon, fluteButton.xyPos.x+5, fluteButton.xyPos.y+5, 90, 90);
   image(saxIcon, saxButton.xyPos.x+5, saxButton.xyPos.y+5, 90, 90);
+  image(menuIcon, masteryButton.xyPos.x+90, masteryButton.xyPos.y+10, 40, 40);
   if(startButton.isMouse() == true){
     tint(200,172,169, 255);
   }
@@ -127,6 +148,9 @@ void drawHome(){
     fill(255);
   }
   text("Settings", settingsButton.xyPos.x+8, settingsButton.xyPos.y+(settingsButton.Xheight/2.3));
+  fill(255);
+  textSize(17);
+  text("View \nMastery", masteryButton.xyPos.x+15, masteryButton.xyPos.y+masteryButton.Xheight/2.1);
   if(instrument.equals("none")){
     textSize(30);
     fill(100, 100, 100);
@@ -188,4 +212,16 @@ void settingsMode(){
     textSize(30);
     text("Press key to bind", width/2+100, height/2-100);
   }
+}
+
+void masteryMode(){
+  if(instrument.equals("flute")){
+    fluteMasteryList.drawMe();
+  }
+  else if(instrument.equals("saxophone")){
+    saxMasteryList.drawMe();
+  }
+  noStroke();
+  homeButton.drawMe();
+  image(homeIcon, homeButton.xyPos.x+5, homeButton.xyPos.y+5, 40, 40);
 }

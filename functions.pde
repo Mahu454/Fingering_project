@@ -46,6 +46,11 @@ void mouseClicked(){
     }
   }
   else{
+    //if mastery button is clicked
+    if(masteryButton.isMouse() == true && instrument.equals("none") == false){
+      screenMode = "mastery";
+      homeButton.mouseClicked = false;
+    }
     //chart button is clicked
     if(cheatSheetButton.isMouse() == true){
       cheatSheetClicked();
@@ -189,6 +194,59 @@ void keyPressed(){
   }
 }
 
+void mouseWheel(MouseEvent event){
+  float e = event.getCount();
+  float y = pow(e, 5);
+  //handles positive cases
+  if(e > 0){
+    if(y > 800){ //max scroll
+      y = 800;
+    }
+    else if(y < 20 && e != 0){
+      y = 20;
+    }
+  }
+  else{ //negative cases
+    if(y < -800){
+      y = -800;
+    }
+    else if(y > -20 && e != 0){
+      y = -20;
+    }
+  }
+  //max scrolls
+  if(instrument.equals("flute")){
+     if(fluteMasteryList.yAdjust <= 0 || e > 0){
+      if(fluteMasteryList.yAdjust > -2660 || e < 0){
+        if(fluteMasteryList.yAdjust - y > 0){
+          fluteMasteryList.yAdjust = 0;
+        }
+        else if(fluteMasteryList.yAdjust-y < -2660){
+          fluteMasteryList.yAdjust = -2660;
+        }
+        else{
+          fluteMasteryList.yAdjust -= y;
+        }
+      }
+    }
+  }
+  else if(instrument.equals("saxophone")){
+    if(saxMasteryList.yAdjust <= 0 || e > 0){
+      if(saxMasteryList.yAdjust > -2660 || e < 0){
+        if(saxMasteryList.yAdjust - y > 0){
+          saxMasteryList.yAdjust = 0;
+        }
+        else if(saxMasteryList.yAdjust-y < -2230){
+          saxMasteryList.yAdjust = -2230;
+        }
+        else{
+          saxMasteryList.yAdjust -= y;
+        }
+      }
+    }
+  }
+}
+
 //increases the mastery of the note by 1 on the text file
 void increaseMastery(String fileName, String[] localData, SheetMusic Notes){
   //gets the last character of string on text file and increases by 1
@@ -196,10 +254,10 @@ void increaseMastery(String fileName, String[] localData, SheetMusic Notes){
   int noteMastery = int(mastery);
   
   //if the mastery is a certain amount, it becomes mastered
-  if(noteMastery == 0){
+  if(noteMastery == 2){
     Notes.addMasteredNote();
   }
-  localData[Notes.noteIndex] = localData[Notes.noteIndex].substring(0, localData[Notes.noteIndex].length()-1) +str(noteMastery+1);
+    localData[Notes.noteIndex] = localData[Notes.noteIndex].substring(0, localData[Notes.noteIndex].length()-1) +str(noteMastery+1);
   
   //saves changes to the files
   if(instrument.equals("flute")){
@@ -211,14 +269,10 @@ void increaseMastery(String fileName, String[] localData, SheetMusic Notes){
   return;
 }
 
-void setMastery(String textFileName, String[] textFile, String[] data, int mastery){
+void setMastery(String textFileName, String[] data, int mastery){
   //setting localdata to set mastery
   for(int i = 0; i<data.length; i++){
     data[i] = data[i].substring(0, data[i].length()-1)+str(mastery);
-  }
-  //clearing textFile
-  for(int i = 0; i<textFile.length; i++){
-    textFile[i] = "";
   }
   //saves data onto text file
   saveStrings(textFileName, data);
