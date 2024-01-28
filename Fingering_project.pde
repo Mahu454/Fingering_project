@@ -27,7 +27,7 @@ void setup(){
   saxButton = new Button(width/2+10, height/2-100, 100, 100, 255,215,0);
   settingsButton = new Button(width/2-65, height/2+120, 130, 55, 255, 238, 240);
   hotKeyResetButton = new Button(450, height/2-100, 100, 50, 190, 190, 190);
-  masteryButton = new Button(width/2-70, height-90, 140, 70, 167, 199, 231);
+  masteryButton = new Button(width/2-70, height-100, 140, 70, 167, 199, 231);
   
   //loading images
   cleff = loadImage("./images/treble.png");
@@ -124,8 +124,8 @@ void drawHome(){
   startButton.drawMe();
   fluteButton.drawOtherButton();
   saxButton.drawOtherButton();
-  strokeWeight(5);
-  stroke(124,83,79);
+  strokeWeight(6);
+  stroke(255, 192, 203);
   settingsButton.drawMe();
   masteryButton.drawMe();
   noStroke();

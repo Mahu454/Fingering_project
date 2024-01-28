@@ -42,7 +42,7 @@ class Button {
     if(mouseClicked == true || isMouse() == true){
       fill(r*0.8, g*0.8, b*0.8);
       stroke(124,83,79);
-      strokeWeight(4);
+      strokeWeight(5);
       rect(xyPos.x, xyPos.y, Xlength, Xheight, 20);
     }
     else{
