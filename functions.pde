@@ -12,7 +12,7 @@ void mouseClicked(){
   if(screenMode.equals("settings")){
     if(instrument.equals("flute")){
       //hot key reset
-      if(hotKeyResetButton.isMouse() == true){
+      if(fluteHotKeyResetButton.isMouse() == true){
         fluteInstrument.resetHotKeys("./data/fluteHotKeys.txt");
       }
       //finds clicked pad
@@ -29,7 +29,7 @@ void mouseClicked(){
     }
     else if(instrument.equals("saxophone")){
       //hot key reset
-      if(hotKeyResetButton.isMouse() == true){
+      if(saxHotKeyResetButton.isMouse() == true){
         saxInstrument.resetHotKeys("./data/saxHotKeys.txt");
       }
       //finds clicked pad
@@ -46,8 +46,17 @@ void mouseClicked(){
     }
   }
   else{
+    //if skip button is clicked
+    if(skipButton.isMouse() == true && screenMode.equals("start")){
+      if(instrument.equals("flute")){
+        fluteNotes.randomNote();
+      }
+      else if(instrument.equals("saxophone")){
+        saxNotes.randomNote();
+      }
+    }
     //if mastery button is clicked
-    if(masteryButton.isMouse() == true && instrument.equals("none") == false){
+    if(masteryButton.isMouse() == true && instrument.equals("none") == false && screenMode.equals("homescreen")){
       screenMode = "mastery";
       homeButton.mouseClicked = false;
     }
@@ -131,15 +140,6 @@ void keyPressed(){
       saxInstrument.clearMe();
     }
   }
-  //this key generates random note
-  if(key == 'r'){
-    if(instrument.equals("flute")){
-      fluteNotes.randomNote();
-    }
-    else if(instrument.equals("saxophone")){
-      saxNotes.randomNote();
-    }
-  }
   //this key resets all of the pads
   if(key == 'R'){
     if(instrument.equals("flute")){
@@ -196,19 +196,21 @@ void keyPressed(){
 
 void mouseWheel(MouseEvent event){
   float e = event.getCount();
-  float y = pow(e, 5);
+  float y = pow(e, 7);
   //handles positive cases
   if(e > 0){
-    if(y > 800){ //max scroll
-      y = 800;
+    if(y > 1000){ //max scroll
+      y = 1000;
+      println("max");
     }
     else if(y < 20 && e != 0){
       y = 20;
     }
   }
   else{ //negative cases
-    if(y < -800){
-      y = -800;
+    if(y < -1000){
+      y = -1000;
+      println("max");
     }
     else if(y > -20 && e != 0){
       y = -20;
